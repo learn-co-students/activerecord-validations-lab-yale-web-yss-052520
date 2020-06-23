@@ -7,12 +7,15 @@ class Post < ActiveRecord::Base
     validate :is_clickbaity 
 
     def is_clickbaity 
-        array = ["Won't Believe", "Secret", "Top", "Guess"] 
+        array = ["Won't Believe", "Secret", "Guess"] 
         unless self.title == nil
             array.each do |clickbait_word| 
                 if self.title.include?(clickbait_word) 
                     return true 
                 end 
+            end 
+            if self.title.match(/Top [0-9]/i) 
+                return true 
             end 
             errors.add(:title, "Not Clickbait!")
         end 
